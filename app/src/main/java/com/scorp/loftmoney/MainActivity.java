@@ -1,84 +1,57 @@
 package com.scorp.loftmoney;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
-import com.scorp.loftmoney.cells.item.ItemsAdapter;
-import com.scorp.loftmoney.cells.item.ItemAdapterClick;
-import com.scorp.loftmoney.cells.item.ItemCellModel;
+import com.google.android.material.tabs.TabLayout;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
+
 
 public class MainActivity extends AppCompatActivity {
-
-    RecyclerView recyclerView;
-    ItemsAdapter itemsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = findViewById(R.id.costsRecyclerView);
-        itemsAdapter = new ItemsAdapter();
-//        itemsAdapter.setItemAdapterClick(new ItemAdapterClick() {
-//            @Override
-//            public void onMoneyClick(ItemCellModel itemCellModel) {
-//
-//            }
-//        });
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        ViewPager viewPager = findViewById(R.id.viewPager);
+        viewPager.setAdapter(new BudgetPagerAdapter(getSupportFragmentManager(),
+                FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT));
 
-        recyclerView.setAdapter(itemsAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),
-                LinearLayoutManager.VERTICAL, false));
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-
-        itemsAdapter.setData(generateExpenses());
-        itemsAdapter.addData(generateIncomes());
-
-        findViewById(R.id.fab_add_expense).setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-                Intent addItemAct = new Intent(getApplicationContext(), AddItemActivity.class);
-                startActivityForResult(addItemAct, 1);
-            }
-        });
+        tabLayout.setupWithViewPager(viewPager);
+        Objects.requireNonNull(tabLayout.getTabAt(0)).setText(R.string.expences);
+        Objects.requireNonNull(tabLayout.getTabAt(1)).setText(R.string.incomes);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data == null)
-            return;
-        ItemCellModel itemCellModel = new ItemCellModel(data.getStringExtra("name"),
-                data.getStringExtra("expense"), R.string.currency, R.color.expenseColor);
-        itemsAdapter.addItem(itemCellModel);
-    }
+    static class BudgetPagerAdapter extends FragmentPagerAdapter{
 
-    private List<ItemCellModel> generateExpenses(){
-        List<ItemCellModel> itemCellModels = new ArrayList<>();
-        itemCellModels.add(new ItemCellModel("Молоко", "70", R.string.currency, R.color.expenseColor));
-        itemCellModels.add(new ItemCellModel("Зубная щетка", "70", R.string.currency, R.color.expenseColor));
-        itemCellModels.add(new ItemCellModel("Сковородка с антипригарным покрытием",
-                "1670", R.string.currency, R.color.expenseColor));
-        return itemCellModels;
-    }
+        public BudgetPagerAdapter(@NonNull FragmentManager fm, int behavior) {
+            super(fm, behavior);
+        }
 
-    private List<ItemCellModel> generateIncomes(){
-        List<ItemCellModel> itemCellModels = new ArrayList<>();
-        itemCellModels.add(new ItemCellModel("Зарплата.Июнь", "70000", R.string.currency, R.color.incomeColor));
-        itemCellModels.add(new ItemCellModel("Премия", "7000", R.string.currency, R.color.incomeColor));
-        itemCellModels.add(new ItemCellModel("Олег наконец-то вернул долг",
-                "300000", R.string.currency, R.color.incomeColor));
-        return itemCellModels;
+        @NonNull
+        @Override
+        public Fragment getItem(int position) {
+            BudgetFragmentTags tag;
+            if(position == 0)
+                tag = BudgetFragmentTags.EXPENCES;
+            else
+                tag = BudgetFragmentTags.INCOMES;
+
+            return BudgetFragment.newInstance(tag);
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
     }
 }

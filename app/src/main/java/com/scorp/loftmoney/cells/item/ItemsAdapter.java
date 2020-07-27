@@ -17,11 +17,6 @@ import java.util.List;
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHolder> {
 
     private List<ItemCellModel> itemCellModels = new ArrayList<>();
-    private ItemAdapterClick itemAdapterClick;
-
-    public void setItemAdapterClick(ItemAdapterClick itemAdapterClick) {
-        this.itemAdapterClick = itemAdapterClick;
-    }
 
     public void setData(List<ItemCellModel> itemCellModels){
         this.itemCellModels.clear();
@@ -42,8 +37,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ItemViewHolder(itemAdapterClick,
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_item, parent, false));
+        return new ItemViewHolder(LayoutInflater
+                .from(parent.getContext())
+                .inflate(R.layout.cell_item, parent, false)
+        );
     }
 
     @Override
@@ -56,16 +53,16 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         return itemCellModels.size();
     }
 
-    static class ItemViewHolder extends RecyclerView.ViewHolder{
-        private final ItemAdapterClick itemAdapterClick;
+    class ItemViewHolder extends RecyclerView.ViewHolder{
+        //private final ItemAdapterClick itemAdapterClick;
         TextView nameView;
         TextView costView;
         TextView currencyView;
 
-        public ItemViewHolder(ItemAdapterClick itemAdapterClick, @NonNull View itemView) {
+        public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            this.itemAdapterClick = itemAdapterClick;
+            //this.itemAdapterClick = itemAdapterClick;
 
             nameView = itemView.findViewById(R.id.cellMoneyNameView);
             costView = itemView.findViewById(R.id.cellMoneyCostView);
@@ -73,16 +70,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         }
 
         public void bind(final ItemCellModel itemCellModel){
-            itemView.setOnClickListener(new View.OnClickListener(){
-
-                @Override
-                public void onClick(View view) {
-                    if(itemAdapterClick != null){
-                        itemAdapterClick.onMoneyClick(itemCellModel);
-                    }
-                }
-            });
-
             nameView.setText(itemCellModel.getName());
             costView.setText(itemCellModel.getCost());
             currencyView.setText(itemCellModel.getCurrency());

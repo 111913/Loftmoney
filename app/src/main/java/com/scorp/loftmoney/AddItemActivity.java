@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -54,7 +55,7 @@ public class AddItemActivity extends AppCompatActivity {
         public void onClick(View view) {
             Intent intent = new Intent();
             intent.putExtra("name", etName.getText().toString());
-            intent.putExtra("expense", etExpense.getText().toString());
+            intent.putExtra("cost", etExpense.getText().toString());
             setResult(RESULT_OK, intent);
             finish();
         }
