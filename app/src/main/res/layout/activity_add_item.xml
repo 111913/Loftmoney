@@ -1,60 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_above="@+id/addNewExpense"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="33dp"
-        android:paddingEnd="104dp"
-        android:layout_marginBottom="61dp"
-        android:orientation="vertical">
+        android:layout_marginTop="128dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:textColorHint="@color/colorEditTextExpense"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:errorEnabled="true">
 
-        <EditText
-            android:id="@+id/titleExpense"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/edittext_name_hint"
             android:inputType="text"
+            android:singleLine="true"
             android:textColor="@color/colorEditTextExpense"
-            android:importantForAutofill="no"/>
-        <EditText
-            android:id="@+id/priceExpense"
+            android:textSize="24sp"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilExpense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:textColorHint="@color/colorEditTextExpense"
+        app:layout_constraintTop_toBottomOf="@id/tilName">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etExpense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:digits="0123456789."
             android:hint="@string/edittext_price_hint"
-            android:inputType="text"
+            android:inputType="number"
+            android:singleLine="true"
             android:textColor="@color/colorEditTextExpense"
-            android:autofillHints="" />
+            android:textSize="24sp"
+            app:layout_constraintTop_toBottomOf="@id/etName"
+            app:layout_constraintTop_toTopOf="parent" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/addNewExpense"
+    <Button
+        android:id="@+id/btnAddItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_marginBottom="32dp"
+        android:background="@android:color/transparent"
+        android:drawableStart="@drawable/ic_arrow_disable"
+
+        android:enabled="false"
         android:text="@string/add_button_title"
-        android:textColor="@color/colorActiveView"
-        android:clickable="false"
-        android:visibility="invisible"/>
-
-    <ImageView
-        android:id="@+id/checkView"
-        android:layout_width="19dp"
-        android:layout_height="15dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-
-        android:layout_toStartOf="@+id/addNewExpense"
-        android:contentDescription="@string/check"
-        android:visibility="invisible"
-        app:srcCompat="@drawable/ic_baseline_check_24" />
+        android:textColor="@color/colorUnActiveView"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,5 +4,5 @@
     <string name="edittext_name_hint">Title</string>
     <string name="edittext_price_hint">Price</string>
     <string name="add_button_title">Add</string>
-    <string name="check">Check</string>
+    <string name="input_text_is_empty">Enter value</string>
 </resources>
