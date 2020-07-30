@@ -2,10 +2,13 @@ package com.scorp.loftmoney;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -47,6 +50,17 @@ public class AddItemActivity extends AppCompatActivity {
         }
     };
 
+    private View.OnClickListener btnAddClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent();
+            intent.putExtra("name", etName.getText().toString());
+            intent.putExtra("cost", etExpense.getText().toString());
+            setResult(RESULT_OK, intent);
+            finish();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +74,8 @@ public class AddItemActivity extends AppCompatActivity {
 
         etExpense.addTextChangedListener(textWatcher);
         etName.addTextChangedListener(textWatcher);
+
+        btnAdd.setOnClickListener(btnAddClickListener);
     }
 
     private void stateBtnAdd(){
