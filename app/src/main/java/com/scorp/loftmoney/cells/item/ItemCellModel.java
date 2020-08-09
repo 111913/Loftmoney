@@ -1,5 +1,8 @@
 package com.scorp.loftmoney.cells.item;
 
+import com.scorp.loftmoney.R;
+import com.scorp.loftmoney.remote.LoftMoneyItem;
+
 public class ItemCellModel {
     private String name;
     private String cost;
@@ -11,6 +14,13 @@ public class ItemCellModel {
         this.cost = cost;
         this.currency = currency;
         this.color = color;
+    }
+
+    public static ItemCellModel getInstance(LoftMoneyItem loftMoneyItem){
+        return new ItemCellModel(loftMoneyItem.getName(),
+                loftMoneyItem.getPrice().toString(),
+                R.string.currency,
+                loftMoneyItem.getType().equals("expense") ? R.color.expenseColor : R.color.incomeColor);
     }
 
     public String getName() {

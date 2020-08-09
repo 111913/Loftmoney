@@ -8,4 +8,6 @@
     <string name="currency">" $"</string>
     <string name="expences">Expences</string>
     <string name="incomes">Incomes</string>
+    <string name="activity_main_toolbar_title">Budget accounting</string>
+    <string name="welcome_login">Enter</string>
 </resources>
