@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 Fragment activeFragment = getSupportFragmentManager().getFragments().get(activeFragmentIndex);
 
                 Intent addItemAct = new Intent(MainActivity.this, AddItemActivity.class);
+                addItemAct.putExtra("Index", activeFragmentIndex);
                 activeFragment.startActivityForResult(addItemAct, 100);
             }
         });
