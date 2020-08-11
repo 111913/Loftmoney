@@ -8,19 +8,22 @@ public class ItemCellModel {
     private String cost;
     private Integer currency;
     private Integer color;
+    private String date;
 
-    public ItemCellModel(String name, String cost, int currency, Integer color) {
+    public ItemCellModel(String name, String cost, Integer currency, Integer color, String date) {
         this.name = name;
         this.cost = cost;
         this.currency = currency;
         this.color = color;
+        this.date = date;
     }
 
     public static ItemCellModel getInstance(LoftMoneyItem loftMoneyItem){
         return new ItemCellModel(loftMoneyItem.getName(),
                 loftMoneyItem.getPrice().toString(),
                 R.string.currency,
-                loftMoneyItem.getType().equals("expense") ? R.color.expenseColor : R.color.incomeColor);
+                loftMoneyItem.getType().equals("expense") ? R.color.expenseColor : R.color.incomeColor,
+                loftMoneyItem.getDate());
     }
 
     public String getName() {
@@ -35,16 +38,8 @@ public class ItemCellModel {
         return cost;
     }
 
-    public void setCost(String cost) {
-        this.cost = cost;
-    }
-
     public Integer getCurrency() {
         return currency;
-    }
-
-    public void setCurrency(Integer currency) {
-        this.currency = currency;
     }
 
     public Integer getColor() {
@@ -53,5 +48,9 @@ public class ItemCellModel {
 
     public void setColor(Integer color) {
         this.color = color;
+    }
+
+    public String getDate() {
+        return date;
     }
 }

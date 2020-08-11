@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.scorp.loftmoney.cells.item.ItemCellModel;
 import com.scorp.loftmoney.cells.item.ItemsAdapter;
 import com.scorp.loftmoney.remote.LoftMoneyItem;
@@ -38,7 +37,6 @@ public class BudgetFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ItemsAdapter itemsAdapter;
-    private FloatingActionButton fabAdd;
     private SwipeRefreshLayout srl;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -87,14 +85,14 @@ public class BudgetFragment extends Fragment {
                 if((BudgetFragmentTags) getArguments().getSerializable("positionTag") == BudgetFragmentTags.INCOMES){
                     itemsAdapter.addItem( new ItemCellModel(data.getStringExtra("name"),
                                                             data.getStringExtra("cost"),
-                                                            R.string.currency, R.color.incomeColor)
+                                                            R.string.currency, R.color.incomeColor, "")
                     );
                     addItem(data.getStringExtra("cost"), data.getStringExtra("name"),"income");
                 }
                 else {
                     itemsAdapter.addItem( new ItemCellModel(data.getStringExtra("name"),
                                                             data.getStringExtra("cost"),
-                                                             R.string.currency, R.color.expenseColor)
+                                                             R.string.currency, R.color.expenseColor, "")
                     );
                     addItem(data.getStringExtra("cost"), data.getStringExtra("name"),"expense");
                 }
@@ -134,6 +132,12 @@ public class BudgetFragment extends Fragment {
         Disposable disposable = ((LoftApp) getActivity().getApplication()).getLoftMoneyApi().getItem(token, typeItems)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        //itemsAdapter.sortItems();
+                    }
+                })
                 .subscribe(new Consumer<List<LoftMoneyItem>>() {
                     @Override
                     public void accept(List<LoftMoneyItem> loftMoneyItems) throws Exception {
@@ -147,6 +151,7 @@ public class BudgetFragment extends Fragment {
                         }
 
                         itemsAdapter.setData(itemCellModels);
+                        itemsAdapter.sortItemsByCreatedDate();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
