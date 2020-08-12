@@ -11,7 +11,6 @@
         android:layout_marginTop="128dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:textColorHint="@color/colorMainTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -24,7 +23,7 @@
             android:hint="@string/edittext_name_hint"
             android:inputType="text"
             android:singleLine="true"
-            android:textColor="@color/colorMainTheme"
+            android:textColor="@color/colorPrimary"
             android:textSize="24sp"
             app:layout_constraintTop_toTopOf="parent"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -36,7 +35,6 @@
         android:layout_marginTop="40dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:textColorHint="@color/colorMainTheme"
         app:layout_constraintTop_toBottomOf="@id/tilName">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -47,7 +45,7 @@
             android:hint="@string/edittext_price_hint"
             android:inputType="number"
             android:singleLine="true"
-            android:textColor="@color/colorMainTheme"
+            android:textColor="@color/colorPrimary"
             android:textSize="24sp"
             app:layout_constraintTop_toBottomOf="@id/etName"
             app:layout_constraintTop_toTopOf="parent" />
@@ -59,12 +57,12 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:background="@android:color/transparent"
-        android:drawableStart="@drawable/ic_arrow_disable"
-
+        android:drawableStart="@drawable/check_ic_arrow_selector"
         android:enabled="false"
         android:text="@string/add_button_title"
-        android:textColor="@color/colorUnActiveView"
+        android:textColor="@color/add_button_text_color"
         android:textSize="14sp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

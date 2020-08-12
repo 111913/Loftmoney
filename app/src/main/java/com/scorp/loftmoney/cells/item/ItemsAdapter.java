@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.scorp.loftmoney.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHolder> {
@@ -34,6 +36,16 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         notifyDataSetChanged();
     }
 
+    public void sortItemsByCreatedDate(){
+        Collections.sort(itemCellModels, new Comparator<ItemCellModel>() {
+            @Override
+            public int compare(ItemCellModel itemCellModel, ItemCellModel t1) {
+                return itemCellModel.getDate().compareTo(t1.getDate());
+            }
+        });
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -53,7 +65,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         return itemCellModels.size();
     }
 
-    class ItemViewHolder extends RecyclerView.ViewHolder{
+    static class ItemViewHolder extends RecyclerView.ViewHolder{
         //private final ItemAdapterClick itemAdapterClick;
         TextView nameView;
         TextView costView;

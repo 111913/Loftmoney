@@ -7,28 +7,55 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.Objects;
 
-
 public class MainActivity extends AppCompatActivity {
+
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private FloatingActionButton fabAddItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TabLayout tabLayout = findViewById(R.id.tabs);
-        ViewPager viewPager = findViewById(R.id.viewPager);
+        setUI();
+    }
+
+    private void setUI(){
+        configureAddButton();
+        tabLayout = findViewById(R.id.tabs);
+
+        viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(new BudgetPagerAdapter(getSupportFragmentManager(),
                 FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT));
 
         tabLayout.setupWithViewPager(viewPager);
         Objects.requireNonNull(tabLayout.getTabAt(0)).setText(R.string.expences);
         Objects.requireNonNull(tabLayout.getTabAt(1)).setText(R.string.incomes);
+    }
+
+    private void configureAddButton(){
+        fabAddItem = findViewById(R.id.fabAddItem);
+        fabAddItem.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                final int activeFragmentIndex = viewPager.getCurrentItem();
+                Fragment activeFragment = getSupportFragmentManager().getFragments().get(activeFragmentIndex);
+
+                Intent addItemAct = new Intent(MainActivity.this, AddItemActivity.class);
+                addItemAct.putExtra("Index", activeFragmentIndex);
+                activeFragment.startActivityForResult(addItemAct, 100);
+            }
+        });
     }
 
     static class BudgetPagerAdapter extends FragmentPagerAdapter{
