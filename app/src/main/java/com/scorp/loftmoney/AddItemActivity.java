@@ -17,6 +17,7 @@ import java.util.Objects;
 public class AddItemActivity extends AppCompatActivity {
     private final int EXPENCES_FRAGMENT_INDEX = 0;
     //private final int INCOMES_FRAGMENT_INDEX = 1;
+    private final int DEFAULT_INTENT_TAG = 404;
 
     private Button btnAdd;
     private TextInputLayout tilName;
@@ -94,7 +95,7 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     private void setColorEditText(){
-        if(getIntent().getIntExtra("Index", 404) == EXPENCES_FRAGMENT_INDEX){
+        if(getIntent().getIntExtra("Index", DEFAULT_INTENT_TAG) == EXPENCES_FRAGMENT_INDEX){
             etName.setTextColor(getResources().getColor(R.color.expenseColor));
             etExpense.setTextColor(getResources().getColor(R.color.expenseColor));
         }

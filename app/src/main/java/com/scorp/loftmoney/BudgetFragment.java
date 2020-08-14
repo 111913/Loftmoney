@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,6 +21,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.scorp.loftmoney.cells.item.ItemCellModel;
 import com.scorp.loftmoney.cells.item.ItemsAdapter;
+import com.scorp.loftmoney.cells.item.ItemsAdapterListener;
 import com.scorp.loftmoney.remote.LoftMoneyItem;
 
 import java.util.ArrayList;
@@ -31,13 +35,14 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class BudgetFragment extends Fragment {
+public class BudgetFragment extends Fragment implements ItemsAdapterListener, ActionMode.Callback {
 
     private static final int REQUEST_CODE = 100;
 
     private RecyclerView recyclerView;
     private ItemsAdapter itemsAdapter;
     private SwipeRefreshLayout srl;
+    private ActionMode actionMode;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -66,7 +71,7 @@ public class BudgetFragment extends Fragment {
         configureItemsDisplay(view);
 
         if (getArguments() != null) {
-            if((BudgetFragmentTags) getArguments().getSerializable("positionTag") == BudgetFragmentTags.INCOMES){
+            if(getArguments().getSerializable("positionTag") == BudgetFragmentTags.INCOMES){
                 loadItems("income");
             }
             else {
@@ -82,7 +87,7 @@ public class BudgetFragment extends Fragment {
             return;
         if(requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK){
             if (getArguments() != null) {
-                if((BudgetFragmentTags) getArguments().getSerializable("positionTag") == BudgetFragmentTags.INCOMES){
+                if(getArguments().getSerializable("positionTag") == BudgetFragmentTags.INCOMES){
                     itemsAdapter.addItem( new ItemCellModel(data.getStringExtra("name"),
                                                             data.getStringExtra("cost"),
                                                             R.string.currency, R.color.incomeColor, "")
@@ -104,12 +109,13 @@ public class BudgetFragment extends Fragment {
         srl = view.findViewById(R.id.swipe_refresh_layout);
         recyclerView = view.findViewById(R.id.costsRecyclerView);
         itemsAdapter = new ItemsAdapter();
+        itemsAdapter.setItemsAdapterListener(this);
 
         srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 if (getArguments() != null) {
-                    if((BudgetFragmentTags) getArguments().getSerializable("positionTag") == BudgetFragmentTags.INCOMES){
+                    if(getArguments().getSerializable("positionTag") == BudgetFragmentTags.INCOMES){
                         loadItems("income");
                     }
                     else {
@@ -132,12 +138,6 @@ public class BudgetFragment extends Fragment {
         Disposable disposable = ((LoftApp) getActivity().getApplication()).getLoftMoneyApi().getItem(token, typeItems)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doAfterTerminate(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        //itemsAdapter.sortItems();
-                    }
-                })
                 .subscribe(new Consumer<List<LoftMoneyItem>>() {
                     @Override
                     public void accept(List<LoftMoneyItem> loftMoneyItems) throws Exception {
@@ -184,5 +184,46 @@ public class BudgetFragment extends Fragment {
                         Log.e("TAG", "Error " + throwable.getLocalizedMessage());
                     }
                 }));
+    }
+
+    @Override
+    public void onItemClick(ItemCellModel item, int position) {
+        itemsAdapter.clearSelectItem(position);
+        if(actionMode != null){
+            actionMode.setTitle(getString(R.string.selected, String.valueOf(itemsAdapter.getSelectedCount())));
+        }
+    }
+
+    @Override
+    public void onItemLongClick(ItemCellModel item, int position) {
+        if(actionMode == null){
+            Objects.requireNonNull(getActivity()).startActionMode(this);
+        }
+        itemsAdapter.toggleItem(position);
+        if(actionMode != null){
+            actionMode.setTitle(getString(R.string.selected, String.valueOf(itemsAdapter.getSelectedCount())));
+        }
+    }
+
+    @Override
+    public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+        this.actionMode = actionMode;
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+        return true;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+        return true;
+    }
+
+    @Override
+    public void onDestroyActionMode(ActionMode actionMode) {
+        this.actionMode = null;
+        itemsAdapter.clearSelections();
     }
 }

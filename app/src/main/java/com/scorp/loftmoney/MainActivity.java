@@ -2,6 +2,8 @@ package com.scorp.loftmoney;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -9,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ActionMode;
 import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -18,6 +21,7 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private FloatingActionButton fabAddItem;
@@ -32,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUI(){
         configureAddButton();
+        toolbar = findViewById(R.id.toolbar);
         tabLayout = findViewById(R.id.tabs);
 
         viewPager = findViewById(R.id.viewPager);
@@ -56,6 +61,20 @@ public class MainActivity extends AppCompatActivity {
                 activeFragment.startActivityForResult(addItemAct, 100);
             }
         });
+    }
+
+    @Override
+    public void onActionModeStarted(ActionMode mode) {
+        super.onActionModeStarted(mode);
+        tabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.colorActionMode));
+        toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.colorActionMode));
+    }
+
+    @Override
+    public void onActionModeFinished(ActionMode mode) {
+        super.onActionModeFinished(mode);
+        tabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
     }
 
     static class BudgetPagerAdapter extends FragmentPagerAdapter{
