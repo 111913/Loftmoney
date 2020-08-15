@@ -55,6 +55,18 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         return selectedItems.size();
     }
 
+    public List<String> getSelectedItemsId(){
+        List<String> result = new ArrayList<>();
+        int i = 0;
+        for(ItemCellModel item: itemCellModels){
+            if(selectedItems.get(i)){
+                result.add(item.getId());
+            }
+            i++;
+        }
+        return result;
+    }
+
     public void setData(List<ItemCellModel> itemCellModels){
         this.itemCellModels.clear();
         this.itemCellModels.addAll(itemCellModels);

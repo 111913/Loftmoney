@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActionModeStarted(mode);
         tabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.colorActionMode));
         toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.colorActionMode));
+        fabAddItem.hide();
     }
 
     @Override
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActionModeFinished(mode);
         tabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
         toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        fabAddItem.show();
     }
 
     static class BudgetPagerAdapter extends FragmentPagerAdapter{

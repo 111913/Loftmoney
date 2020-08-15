@@ -4,13 +4,15 @@ import com.scorp.loftmoney.R;
 import com.scorp.loftmoney.remote.LoftMoneyItem;
 
 public class ItemCellModel {
+    private String id;
     private String name;
     private String cost;
     private Integer currency;
     private Integer color;
     private String date;
 
-    public ItemCellModel(String name, String cost, Integer currency, Integer color, String date) {
+    public ItemCellModel(String id, String name, String cost, Integer currency, Integer color, String date) {
+        this.id = id;
         this.name = name;
         this.cost = cost;
         this.currency = currency;
@@ -19,11 +21,20 @@ public class ItemCellModel {
     }
 
     public static ItemCellModel getInstance(LoftMoneyItem loftMoneyItem){
-        return new ItemCellModel(loftMoneyItem.getName(),
+        return new ItemCellModel(loftMoneyItem.getItemId(),
+                loftMoneyItem.getName(),
                 loftMoneyItem.getPrice().toString(),
                 R.string.currency,
                 loftMoneyItem.getType().equals("expense") ? R.color.expenseColor : R.color.incomeColor,
                 loftMoneyItem.getDate());
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
