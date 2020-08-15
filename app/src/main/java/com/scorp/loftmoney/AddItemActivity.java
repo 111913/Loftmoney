@@ -73,8 +73,15 @@ public class AddItemActivity extends AppCompatActivity {
             intent.putExtra("cost", Objects.requireNonNull(etExpense.getText()).toString());
             setResult(RESULT_OK, intent);
             finish();
+            overridePendingTransition(R.anim.appreance, R.anim.diagonal_hide_translate);
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.appreance, R.anim.diagonal_hide_translate);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

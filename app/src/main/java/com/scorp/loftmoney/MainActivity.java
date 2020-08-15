@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent addItemAct = new Intent(MainActivity.this, AddItemActivity.class);
                 addItemAct.putExtra("Index", activeFragmentIndex);
                 activeFragment.startActivityForResult(addItemAct, 100);
+                overridePendingTransition(R.anim.diagonal_show_translate, R.anim.fade);
             }
         });
     }
