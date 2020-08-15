@@ -6,11 +6,15 @@
     <string name="add_button_title">Add</string>
     <string name="input_text_is_empty">Enter value</string>
     <string name="currency">" $"</string>
-    <string name="expences">Expences</string>
+    <string name="expenses">Expenses</string>
     <string name="incomes">Incomes</string>
     <string name="activity_main_toolbar_title">Budget accounting</string>
     <string name="welcome_login">Enter</string>
     <string name="selected">Selected: %1$s</string>
     <string name="remove_items">Delete</string>
     <string name="confirmation">Are you sure you want to delete the selected items?</string>
+    <string name="balance_finance_title">Affordable finance</string>
+    <string name="expense">Expense</string>
+    <string name="income">Income</string>
+    <string name="balance">Balance</string>
 </resources>

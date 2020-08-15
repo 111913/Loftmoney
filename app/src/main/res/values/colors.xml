@@ -6,8 +6,10 @@
     <color name="colorActionMode">#333f59</color>
     <color name="colorUnActiveView">#eaeaea</color>
     <color name="colorActiveView">#7ed321</color>
-    <color name="itemNameColor">#666664</color>
+    <color name="primaryTextColor">#666664</color>
     <color name="expenseColor">#4a90e2</color>
     <color name="incomeColor">#7ed321</color>
     <color name="highlightedItemColor">#F2F2F2</color>
+    <color name="dividerColor">#efefef</color>
+    <color name="orange">#ff9e57</color>
 </resources>

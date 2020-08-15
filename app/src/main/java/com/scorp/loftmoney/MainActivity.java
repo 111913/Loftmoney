@@ -1,11 +1,9 @@
 package com.scorp.loftmoney;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -44,8 +42,9 @@ public class MainActivity extends AppCompatActivity {
                 FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT));
 
         tabLayout.setupWithViewPager(viewPager);
-        Objects.requireNonNull(tabLayout.getTabAt(0)).setText(R.string.expences);
+        Objects.requireNonNull(tabLayout.getTabAt(0)).setText(R.string.expenses);
         Objects.requireNonNull(tabLayout.getTabAt(1)).setText(R.string.incomes);
+        Objects.requireNonNull(tabLayout.getTabAt(2)).setText(R.string.balance);
     }
 
     private void configureAddButton(){
@@ -80,27 +79,4 @@ public class MainActivity extends AppCompatActivity {
         fabAddItem.show();
     }
 
-    static class BudgetPagerAdapter extends FragmentPagerAdapter{
-
-        public BudgetPagerAdapter(@NonNull FragmentManager fm, int behavior) {
-            super(fm, behavior);
-        }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            BudgetFragmentTags tag;
-            if(position == 0)
-                tag = BudgetFragmentTags.EXPENCES;
-            else
-                tag = BudgetFragmentTags.INCOMES;
-
-            return BudgetFragment.newInstance(tag);
-        }
-
-        @Override
-        public int getCount() {
-            return 2;
-        }
-    }
 }
