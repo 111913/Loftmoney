@@ -14,7 +14,6 @@ class BudgetPagerAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        BudgetFragmentTags tag;
         switch (position){
             case 0:
                 return BudgetFragment.newInstance(BudgetFragmentTags.EXPENCES);

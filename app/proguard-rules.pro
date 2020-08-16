@@ -19,3 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class com.scorp.loftmoney.remote.BalanceResponse {*;}
+-keep class com.scorp.loftmoney.remote.AuthResponse {*;}
+-keep class com.scorp.loftmoney.remote.LoftMoneyItem {*;}
+-keep class com.scorp.loftmoney.cells.item.ItemCellModel {*;}

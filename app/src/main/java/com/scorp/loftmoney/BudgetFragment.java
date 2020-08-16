@@ -44,6 +44,9 @@ public class BudgetFragment extends Fragment implements ItemsAdapterListener, Ac
     private static final int REQUEST_CODE = 100;
     private static final String DEFAULT_ITEM_ID = "";
     private static final String DEFAULT_CREATE_ITEM_DATE = "";
+    private final int EXPENCES_FRAGMENT_INDEX = 0;
+    private final int INCOMES_FRAGMENT_INDEX = 1;
+    private final int DEFAULT_POSITON_TAG = 404;
 
     private RecyclerView recyclerView;
     private ItemsAdapter itemsAdapter;
@@ -80,7 +83,7 @@ public class BudgetFragment extends Fragment implements ItemsAdapterListener, Ac
             if(getArguments().getSerializable("positionTag") == BudgetFragmentTags.INCOMES){
                 loadItems("income");
             }
-            else {
+            if(getArguments().getSerializable("positionTag") == BudgetFragmentTags.EXPENCES){
                 loadItems("expense");
             }
         }
@@ -91,28 +94,26 @@ public class BudgetFragment extends Fragment implements ItemsAdapterListener, Ac
         super.onActivityResult(requestCode, resultCode, data);
         if (data == null)
             return;
-        if(requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK){
-            if (getArguments() != null) {
-                if(getArguments().getSerializable("positionTag") == BudgetFragmentTags.INCOMES){
-                    itemsAdapter.addItem( new ItemCellModel(DEFAULT_ITEM_ID,
-                                                            data.getStringExtra("name"),
-                                                            data.getStringExtra("cost"),
-                                                            R.string.currency, R.color.incomeColor,
-                                                            DEFAULT_CREATE_ITEM_DATE)
-                    );
-                    addItem(data.getStringExtra("cost"), data.getStringExtra("name"),"income");
-                }
-                else {
-                    itemsAdapter.addItem( new ItemCellModel(DEFAULT_ITEM_ID,
-                                                            data.getStringExtra("name"),
-                                                            data.getStringExtra("cost"),
-                                                             R.string.currency, R.color.expenseColor,
-                                                            DEFAULT_CREATE_ITEM_DATE)
-                    );
-                    addItem(data.getStringExtra("cost"), data.getStringExtra("name"),"expense");
-                }
-            }
+
+        if(data.getIntExtra("position", DEFAULT_POSITON_TAG) == INCOMES_FRAGMENT_INDEX){
+            itemsAdapter.addItem( new ItemCellModel(DEFAULT_ITEM_ID,
+                    data.getStringExtra("name"),
+                    data.getStringExtra("cost"),
+                    R.string.currency, R.color.incomeColor,
+                    DEFAULT_CREATE_ITEM_DATE)
+            );
+            addItem(data.getStringExtra("cost"), data.getStringExtra("name"),"income");
         }
+        if(data.getIntExtra("position", DEFAULT_POSITON_TAG) == EXPENCES_FRAGMENT_INDEX){
+            itemsAdapter.addItem( new ItemCellModel(DEFAULT_ITEM_ID,
+                    data.getStringExtra("name"),
+                    data.getStringExtra("cost"),
+                    R.string.currency, R.color.expenseColor,
+                    DEFAULT_CREATE_ITEM_DATE)
+            );
+            addItem(data.getStringExtra("cost"), data.getStringExtra("name"),"expense");
+        }
+
     }
 
     private void configureItemsDisplay(@NonNull View view){
@@ -270,7 +271,7 @@ public class BudgetFragment extends Fragment implements ItemsAdapterListener, Ac
                                 if(getArguments().getSerializable("positionTag") == BudgetFragmentTags.INCOMES){
                                     loadItems("income");
                                 }
-                                else {
+                                if(getArguments().getSerializable("positionTag") == BudgetFragmentTags.EXPENCES){
                                     loadItems("expense");
                                 }
                             }
