@@ -3,6 +3,9 @@ package com.scorp.loftmoney;
 import android.app.Application;
 import android.content.SharedPreferences;
 
+import androidx.core.os.BuildCompat;
+
+import com.google.gson.internal.GsonBuildConfig;
 import com.scorp.loftmoney.remote.AuthApi;
 import com.scorp.loftmoney.remote.LoftMoneyApi;
 
@@ -44,7 +47,7 @@ public class LoftApp extends Application {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
-                .baseUrl("https://loftschool.com/android-api/basic/v1/")
+                .baseUrl(BuildConfig.URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
