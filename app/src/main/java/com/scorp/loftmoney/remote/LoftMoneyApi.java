@@ -25,4 +25,10 @@ public interface LoftMoneyApi {
                         @Field("price") String price,
                         @Field("name") String name,
                         @Field("type") String type);
+
+    @POST("./items/remove")
+    Completable deleteItem(@Query("auth-token") String token, @Query("id") String id);
+
+    @GET("./balance")
+    Single<BalanceResponse> getBalance(@Query("auth-token") String token);
 }

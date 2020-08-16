@@ -32,10 +32,14 @@ public class SplashActivity extends AppCompatActivity {
     private void routeToMain(){
         Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(mainIntent);
+        finish();
+        overridePendingTransition(R.anim.appreance, R.anim.fade);
     }
 
     private void routeToLogin(){
         Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(loginIntent);
+        finish();
+        overridePendingTransition(R.anim.appreance, R.anim.fade);
     }
 }

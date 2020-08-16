@@ -1,5 +1,6 @@
 package com.scorp.loftmoney.cells.item;
 
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,52 @@ import java.util.List;
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHolder> {
 
     private List<ItemCellModel> itemCellModels = new ArrayList<>();
+    private ItemsAdapterListener itemsAdapterListener;
+
+    private SparseBooleanArray selectedItems = new SparseBooleanArray();
+
+    public void setItemsAdapterListener(ItemsAdapterListener itemsAdapterListener) {
+        this.itemsAdapterListener = itemsAdapterListener;
+    }
+
+    public void clearSelections(){
+        selectedItems.clear();
+        notifyDataSetChanged();
+    }
+
+    public void toggleItem(final int position){
+        selectedItems.put(position, !selectedItems.get(position));
+        notifyDataSetChanged();
+    }
+
+    public void clearSelectItem(final int position){
+        //selectedItems.put(position, false);
+        selectedItems.delete(position);
+        notifyDataSetChanged();
+    }
+
+    public int getSelectedCount(){
+//        int res = 0;
+//        for(int i = 0; i < selectedItems.size(); i++){
+//            if(selectedItems.get(i)){
+//                res++;
+//            }
+//        }
+//        return res;
+        return selectedItems.size();
+    }
+
+    public List<String> getSelectedItemsId(){
+        List<String> result = new ArrayList<>();
+        int i = 0;
+        for(ItemCellModel item: itemCellModels){
+            if(selectedItems.get(i)){
+                result.add(item.getId());
+            }
+            i++;
+        }
+        return result;
+    }
 
     public void setData(List<ItemCellModel> itemCellModels){
         this.itemCellModels.clear();
@@ -57,7 +104,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        holder.bind(itemCellModels.get(position));
+        holder.bind(itemCellModels.get(position), selectedItems.get(position));
+        holder.setListener(itemsAdapterListener, itemCellModels.get(position), position);
     }
 
     @Override
@@ -67,26 +115,47 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
 
     static class ItemViewHolder extends RecyclerView.ViewHolder{
         //private final ItemAdapterClick itemAdapterClick;
-        TextView nameView;
-        TextView costView;
-        TextView currencyView;
+        private View itemView;
+        private TextView nameView;
+        private TextView costView;
+        private TextView currencyView;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
             //this.itemAdapterClick = itemAdapterClick;
 
+            this.itemView = itemView;
             nameView = itemView.findViewById(R.id.cellMoneyNameView);
             costView = itemView.findViewById(R.id.cellMoneyCostView);
             currencyView = itemView.findViewById(R.id.cellMoneyCurrencyView);
         }
 
-        public void bind(final ItemCellModel itemCellModel){
+        public void bind(final ItemCellModel itemCellModel, final boolean isSelected){
+            itemView.setSelected(isSelected);
+
             nameView.setText(itemCellModel.getName());
             costView.setText(itemCellModel.getCost());
             currencyView.setText(itemCellModel.getCurrency());
             costView.setTextColor(ContextCompat.getColor(costView.getContext(), itemCellModel.getColor()));
             currencyView.setTextColor((ContextCompat.getColor(currencyView.getContext(), itemCellModel.getColor())));
+        }
+
+        public void setListener(final ItemsAdapterListener listener, final ItemCellModel item, final int position){
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClick(item, position);
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    listener.onItemLongClick(item, position);
+                    return false;
+                }
+            });
         }
     }
 }

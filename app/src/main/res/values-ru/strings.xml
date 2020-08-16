@@ -6,8 +6,15 @@
     <string name="add_button_title">Добавить</string>
     <string name="input_text_is_empty">Введите значение</string>
     <string name="currency">" ₽"</string>
-    <string name="expences">Расходы</string>
+    <string name="expenses">Расходы</string>
     <string name="incomes">Доходы</string>
+    <string name="expense">Расход</string>
+    <string name="income">Доход</string>
     <string name="activity_main_toolbar_title">Учёт бюджета</string>
     <string name="welcome_login">Войти</string>
+    <string name="selected">Выделено: %1$s</string>
+    <string name="remove_items">Удалить</string>
+    <string name="confirmation">Вы действительно хотите удалить выбранные пункты?</string>
+    <string name="balance_finance_title">Доступные финансы</string>
+    <string name="balance">Баланс</string>
 </resources>
