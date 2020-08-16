@@ -1,6 +1,7 @@
 package com.scorp.loftmoney;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
@@ -19,22 +20,22 @@ public class BalanceView extends View {
 
     public BalanceView(Context context) {
         super(context);
-        init();
+        init(null);
     }
 
     public BalanceView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(attrs);
     }
 
     public BalanceView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(attrs);
     }
 
     public BalanceView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init();
+        init(attrs);
     }
 
     public void update(float expenses, float incomes){
@@ -44,9 +45,21 @@ public class BalanceView extends View {
         invalidate();
     }
 
-    private void init(){
-        expensePaint.setColor(ContextCompat.getColor(getContext(), R.color.expenseColor));
-        incomePaint.setColor(ContextCompat.getColor(getContext(), R.color.incomeColor));
+    private void init(@Nullable AttributeSet attrs){
+
+        if(attrs == null){
+            expensePaint.setColor(ContextCompat.getColor(getContext(), R.color.expenseColor));
+            incomePaint.setColor(ContextCompat.getColor(getContext(), R.color.incomeColor));
+        }
+        else{
+            TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.BalanceView);
+
+            int expenseColor = typedArray.getColor(R.styleable.BalanceView_bv_expenseColor, 0);
+            int incomeColor = typedArray.getColor(R.styleable.BalanceView_bv_incomeColor, 0);
+
+            expensePaint.setColor(expenseColor);
+            incomePaint.setColor(incomeColor);
+        }
     }
 
     @Override

@@ -68,10 +68,11 @@ public class AddItemActivity extends AppCompatActivity {
     private View.OnClickListener btnAddClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent();
-            intent.putExtra("name", Objects.requireNonNull(etName.getText()).toString());
-            intent.putExtra("cost", Objects.requireNonNull(etExpense.getText()).toString());
-            setResult(RESULT_OK, intent);
+            Intent mainIntent = new Intent();
+            mainIntent.putExtra("position", getIntent().getIntExtra("Index", DEFAULT_INTENT_TAG));
+            mainIntent.putExtra("name", Objects.requireNonNull(etName.getText()).toString());
+            mainIntent.putExtra("cost", Objects.requireNonNull(etExpense.getText()).toString());
+            setResult(RESULT_OK, mainIntent);
             finish();
             overridePendingTransition(R.anim.appreance, R.anim.diagonal_hide_translate);
         }

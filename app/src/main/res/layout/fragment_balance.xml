@@ -162,6 +162,8 @@
         android:id="@+id/balanceView"
         android:layout_width="184dp"
         android:layout_height="176dp"
+        app:bv_expenseColor="@color/expenseColor"
+        app:bv_incomeColor="@color/incomeColor"
         app:layout_constraintTop_toBottomOf="@+id/dividerHorizFinance2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
